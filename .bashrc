@@ -129,20 +129,20 @@ export BOLDBLUE="\[\033[1;34m\]"
 # Codespaces bash prompt theme
 __bash_prompt() {
     local userpart='`export XIT=$? \
-        && [ ! -z "${GITHUB_USER}" ] && echo -n "$GREEN@${GITHUB_USER} " || echo -n "$GREEN\u " \
-        && [ "$XIT" -ne "0" ] && echo -n "$BOLDRED➜" || echo -n "$COLOROFF➜"`'
+        && [ ! -z "${GITHUB_USER}" ] && echo -n "'$GREEN'@${GITHUB_USER} " || echo -n "'$GREEN'\u " \
+        && [ "$XIT" -ne "0" ] && echo -n "'$BOLDRED'➜" || echo -n "'$COLOROFF'➜"`'
     local gitbranch='`\
         if [ "$(git config --get codespaces-theme.hide-status 2>/dev/null)" != 1 ]; then \
             export BRANCH=$(git symbolic-ref --short HEAD 2>/dev/null || git rev-parse --short HEAD 2>/dev/null); \
             if [ "${BRANCH}" != "" ]; then \
-                echo -n "$CYAN($MAGENTA${BRANCH}" \
+                echo -n "'$CYAN'('$MAGENTA'${BRANCH}" \
                 && if git ls-files --error-unmatch -m --directory --no-empty-directory -o --exclude-standard ":/*" > /dev/null 2>&1; then \
-                        echo -n " $YELLOW✗"; \
+                        echo -n " '$YELLOW'✗"; \
                 fi \
-                && echo -n "$CYAN) "; \
+                && echo -n "'$CYAN') "; \
             fi; \
         fi`'
-    PS1="${userpart} ${$BLUE}\w ${gitbranch}${COLOROFF}\$ "
+    PS1="${userpart} ${BLUE}\w ${gitbranch}${COLOROFF}\$ "
     unset -f __bash_prompt
 }
 __bash_prompt
