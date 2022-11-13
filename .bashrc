@@ -81,18 +81,18 @@ if [ -x /usr/bin/dircolors ]; then
     #alias dir='dir --color=auto'
     #alias vdir='vdir --color=auto'
 
-    #alias grep='grep --color=auto'
-    #alias fgrep='fgrep --color=auto'
-    #alias egrep='egrep --color=auto'
+    alias grep='grep --color=auto'
+    alias fgrep='fgrep --color=auto'
+    alias egrep='egrep --color=auto'
 fi
 
 # colored GCC warnings and errors
 #export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 
 # some more ls aliases
-#alias ll='ls -l'
-#alias la='ls -A'
-#alias l='ls -CF'
+alias ll='ls -l'
+alias la='ls -A'
+alias l='ls -CF'
 
 # Alias definitions.
 # You may want to put all your additions into a separate file like
@@ -114,26 +114,38 @@ if ! shopt -oq posix; then
   fi
 fi
 
+export COLOROFF="\[\033[0m\]"
+export BLACK="\[\033[0;30m\]"
+export RED="\[\033[0;31m\]"
+export GREEN="\[\033[0;32m\]"
+export YELLOW="\[\033[0;33m\]"
+export BLUE="\[\033[0;34m\]"
+export MAGENTA="\[\033[0;35m\]"
+export CYAN="\[\033[0;36m\]"
+export WHITE="\[\033[0;37m\]"
+export BOLDRED="\[\033[1;31m\]"
+export BOLDBLUE="\[\033[1;34m\]"
+
 # Codespaces bash prompt theme
 __bash_prompt() {
     local userpart='`export XIT=$? \
-        && [ ! -z "${GITHUB_USER}" ] && echo -n "\[\033[0;32m\]@${GITHUB_USER} " || echo -n "\[\033[0;32m\]\u " \
-        && [ "$XIT" -ne "0" ] && echo -n "\[\033[1;31m\]➜" || echo -n "\[\033[0m\]➜"`'
+        && [ ! -z "${GITHUB_USER}" ] && echo -n "$GREEN@${GITHUB_USER} " || echo -n "$GREEN\u " \
+        && [ "$XIT" -ne "0" ] && echo -n "$BOLDRED➜" || echo -n "$COLOROFF➜"`'
     local gitbranch='`\
         if [ "$(git config --get codespaces-theme.hide-status 2>/dev/null)" != 1 ]; then \
             export BRANCH=$(git symbolic-ref --short HEAD 2>/dev/null || git rev-parse --short HEAD 2>/dev/null); \
             if [ "${BRANCH}" != "" ]; then \
-                echo -n "\[\033[0;36m\](\[\033[1;31m\]${BRANCH}" \
+                echo -n "$CYAN($MAGENTA${BRANCH}" \
                 && if git ls-files --error-unmatch -m --directory --no-empty-directory -o --exclude-standard ":/*" > /dev/null 2>&1; then \
-                        echo -n " \[\033[1;33m\]✗"; \
+                        echo -n " $YELLOW✗"; \
                 fi \
-                && echo -n "\[\033[0;36m\]) "; \
+                && echo -n "$CYAN) "; \
             fi; \
         fi`'
-    local lightblue='\[\033[1;34m\]'
-    local removecolor='\[\033[0m\]'
-    PS1="${userpart} ${lightblue}\w ${gitbranch}${removecolor}\$ "
+    PS1="${userpart} ${$BLUE}\w ${gitbranch}${COLOROFF}\$ "
     unset -f __bash_prompt
 }
 __bash_prompt
 export PROMPT_DIRTRIM=4
+
+source ~/.git-completion.bash
