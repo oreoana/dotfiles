@@ -130,5 +130,4 @@ export PS1="\[$GREEN\]\t \[$BLUE\]\w\[\033[m\]\[$MAGENTA\]\$(__git_ps1)\[$WHITE\
 # Michael was here
 alias python=python3
 
-curl -o ~/.git-prompt.sh https://raw.githubusercontent.com/git/git/master/contrib/completion/git-prompt.sh
 source ~/.git-prompt.sh
